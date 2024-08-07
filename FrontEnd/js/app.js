@@ -99,5 +99,3 @@ function boutonCreateFiltreMenu () { /*fonction pour créer les bouton filtre */
 }
 
 boutonCreateFiltreMenu() /*appel de la fonction  */
-
-
