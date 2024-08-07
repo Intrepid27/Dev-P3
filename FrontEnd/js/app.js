@@ -1,3 +1,14 @@
+const gallery= document.querySelector(".gallery")
+
+// recuperation de catégories pour les boutons dynamique
+
+async function fetchCategories () {
+    const response = await fetch("http://localhost:5678/api/categories")
+    return await response.json()
+}
+/* la fonction fetchCategorie permet d'appeler l'API pour recuperer dans ce cas les categories.
+return nous permet d'avoir le retour de la fonction et await, l'attente de la resolution de la demande.
+repsonseµ.json permet de recuperer cette reponse puis de la transformer en objet.  */
 
 
 
@@ -45,59 +56,48 @@ fetchData().then(data => { /* appel dela fonction fetchData, puis exection ed la
 
 
     });
-}).catch(error => {console.log("Error fetching data" + error)})
+}).catch(error => {console.log("Error fetching data" + error)}) /* gestion des erreur lors de la recuperation des données */
 }
 
-updateGallery("all")
+updateGallery("all") /*appel de la fonction updateGallery avec le paramètre All */
 
 // bouton filtre menu
-function boutonCreateFiltreMenu () {
-    const filtreContainer = document.querySelector(".filter_container");
-    const boutonAll = document.createElement("button");
-    boutonAll.classList.add("filtre-button");
-    boutonAll.innerHTML = "Tous";
-    boutonAll.value = "all";
-    filtreContainer.appendChild(boutonAll);
+function boutonCreateFiltreMenu () { /*fonction pour créer les bouton filtre */
+    const filtreContainer = document.querySelector(".filter_container"); /* selection de la div pour  ajouter les boutons */
+    const boutonAll = document.createElement("button"); /*création du bouton */
+    boutonAll.classList.add("filtre-button"); /*ajout de la classe au bouton */
+    boutonAll.innerHTML = "Tous"; /*création du texte pour le bouton */
+    boutonAll.value = "all"; /*définition de la valeur du bouton */
+    filtreContainer.appendChild(boutonAll); /*ajout du bouton a la div*/
 
-    boutonAll.addEventListener("click", function(){
-        updateGallery("all");
+    boutonAll.addEventListener("click", function(){  /* ajout de l'evenement click au bouton*/
+        updateGallery("all"); /*appekl de la fonction pour tous afficher lorsque All est cliqué*/
     })
 
-    fetchCategories().then(
+    fetchCategories().then( /*recuperation des catégorie via fetch */
         categories => {
-            categories.forEach(category =>{
-                console.log(category)
-                const filtreButton = document.createElement("button");
-                filtreButton.classList.add("filtre-button");
-                filtreButton.innerHTML = category.name;
-                filtreButton.value = category.id;
-                filtreContainer.appendChild(filtreButton);
+            categories.forEach(category =>{ /*parcours de toutes les catégorie recuperées */
+                console.log(category) /*affichage de chaque catégorie dans la console */
+                const filtreButton = document.createElement("button"); /* création d'un bouton pour chaque catégorie */
+                filtreButton.classList.add("filtre-button"); /*ajout de la classe au bouton */
+                filtreButton.innerHTML = category.name;/*ajout du texte pour les boutons */
+                filtreButton.value = category.id; /*definition de la valeur des boutons */
+                filtreContainer.appendChild(filtreButton); /*ajout des bouton au container filtre */
                 // appel fonction pour filtrage au click
-                filtreButton.addEventListener("click", function(){
-                    const categoryId = category.id;
-                    if (categoryId === "all") {
-                        updateGallery("all");
+                filtreButton.addEventListener("click", function(){ /*ajout de l'événement click à chaque bouton */
+                    const categoryId = category.id; /* récuperation de l'identifiant de la catégorie*/
+                    if (categoryId === "all") { /*vérification si la catégorie selectionnée est all */
+                        updateGallery("all"); /*MAJ sur tous si all selectionné */
                     } 
                     else {
-                        updateGallery(categoryId);
+                        updateGallery(categoryId); /*sinon afficher la catégotie selectionnée */
                     }
                 })
             })
         }
-    ).catch(error => console.log(error))
+    ).catch(error => console.log(error)) /*gestion des erreurs qui pourrais cubvenir lors de la récuperation */
 }
 
-boutonCreateFiltreMenu()
+boutonCreateFiltreMenu() /*appel de la fonction  */
 
 
-const gallery= document.querySelector(".gallery")
-
-// recuperation de catégories pour les boutons dynamique
-
-async function fetchCategories () {
-    const response = await fetch("http://localhost:5678/api/categories")
-    return await response.json()
-}
-/* la fonction fetchCategorie permet d'appeler l'API pour recuperer dans ce cas les categories.
-return nous permet d'avoir le retour de la fonction et await, l'attente de la resolution de la demande.
-repsonseµ.json permet de recuperer cette reponse puis de la transformer en objet.  */
