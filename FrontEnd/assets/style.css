@@ -188,6 +188,10 @@ cursor: pointer;
 	cursor: pointer;
 }
 
+.errorMessage{
+	color: red;
+}
+
 
 /* --- Menu filtre --- */
 .filter_container {

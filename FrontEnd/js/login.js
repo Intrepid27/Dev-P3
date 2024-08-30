@@ -1,5 +1,5 @@
 const form = document.querySelector('#formLogin');
-const errorMessage = document.querySelector('.errorMessage'); // !!! 
+const errorMessage = document.querySelector('.errorMessage');
 const buttonLogin = document.querySelector('.login_button');
 
 buttonLogin.addEventListener('click', (event) => {
@@ -30,13 +30,11 @@ fetch ('http://localhost:5678/api/users/login', {
     })
     .then (data => data.json())
     .then (data => {
-        console.log(data);
-        /*if(data.token){
+        if(data.token){
             window.localStorage.setItem('token', data.token);
             window.location.href = 'index.html';
         } else {
-            errorMessage.style.display = 'block';
-            console.log("Erreur dans l'identifiant ou le mot de passe");
-        }*/
+            errorMessage.innerHTML="Erreur dans l'identifiant ou le mot de passe";
+        }
     }).catch(error => console.log(error));
-},false);
+});
