@@ -56,10 +56,28 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 section {
 	margin: 50px 0
+}
+
+/*--- header edit ---*/
+
+
+.headband{
+	display: flex;
+	width: 100%;
+	height: 50px;
+	color: white;
+	background-color: black;
+	justify-content: center;
+	align-items: center;
+}
+
+.menu{
+	grid-column: 2 / 3;
+  	grid-row: 2;
 }
 
 h1{
@@ -86,6 +104,7 @@ h2{
 }
 nav ul {
 	display: flex;
+	justify-content: end;
 	align-items: center;
 	list-style-type: none;
 
