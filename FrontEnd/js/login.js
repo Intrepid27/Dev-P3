@@ -32,7 +32,7 @@ fetch ('http://localhost:5678/api/users/login', {
     .then (data => {
         if(data.token){
             window.localStorage.setItem('token', data.token);
-            window.location.href = 'index.html';
+            window.location.href = 'edit.html';
         } else {
             errorMessage.innerHTML="Erreur dans l'identifiant ou le mot de passe";
         }
