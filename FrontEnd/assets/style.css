@@ -83,24 +83,30 @@ section {
 /*--- menu modifier ---*/
 
 .menu_modifier {
-    display: flex;                   /* Utilise le modèle de boîte flexible */
-    justify-content: space-between;  /* Espace entre les éléments */
-    align-items: center;            /* Centre verticalement les éléments */
+    display: flex;
+    justify-content: center; /* Centrer le contenu horizontalement */
+    align-items: center;
+    gap: 10px; /* Ajoutez un espace entre le titre et le texte "modifier" */
 }
 
 .title_container {
-    flex: 1;                         /* Permet au conteneur du titre de prendre tout l'espace disponible */
-    display: flex;                  /* Utilise le modèle de boîte flexible pour centrer le titre */
-    justify-content: center;         /* Centre le titre horizontalement */
-}
-
-.edit_h2 {
-    margin: 0;                      /* Supprime les marges par défaut */
+    text-align: center; /* Centrer le titre */
+    font-size: 2em; /* Taille du texte du titre, ajustez selon votre préférence */
+    font-family: 'Syne', sans-serif; /* Utilisation de la police déjà chargée */
 }
 
 .modifier_text {
-    margin-left: auto;              /* Pousse le texte "Modifier" à droite */
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    font-family: 'Work Sans', sans-serif; /* Utilisation de la police déjà chargée */
 }
+
+.material-symbols-outlined {
+    font-size: 1.2em; /* Taille de l'icône, ajustez si nécessaire */
+    margin-right: 5px; /* Espace entre l'icône et le texte "modifier" */
+}
+
 
 
 
