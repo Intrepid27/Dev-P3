@@ -67,7 +67,7 @@ section {
 
 .headband{
 	display: flex;
-	width: 100%;
+	width: 100vw;
 	height: 50px;
 	color: white;
 	background-color: black;
@@ -104,6 +104,7 @@ section {
     color: inherit;
 
 }
+
 
 
 .modifier_text a{
@@ -276,12 +277,46 @@ cursor: pointer;
 
 .modal-wrapper{
 	overflow: auto;
-	width: 600px;
+	width: 400px;
 	max-width: calc(100vh - 20px);
 	max-height: calc(100vh - 20px);
 	padding: 20px;
 	background-color: white;
 
+}
+
+.gallery-modal {
+    display: flex;
+    flex-wrap: wrap; /* Les images vont revenir à la ligne lorsqu'il n'y a plus d'espace */
+    gap: 5px; /* Espace entre les images */
+    justify-content: start; /* Centrer les images */
+	margin: 45px;
+}
+
+.gallery-modal img {
+    width: 50px; /* Taille des images */
+    height: auto;
+    object-fit: cover;
+	margin-bottom: 10px;
+}
+
+.add-photo-section{
+	display: flex;
+	justify-content: center;
+}
+
+button.add-photo-btn{
+	justify-content: center;
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 2em auto ;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+	border: transparent;
+	
 }
 
 
