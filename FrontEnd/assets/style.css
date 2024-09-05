@@ -80,6 +80,30 @@ section {
   	grid-row: 2;
 }
 
+/*--- menu modifier ---*/
+
+.menu_modifier {
+    display: flex;                   /* Utilise le modèle de boîte flexible */
+    justify-content: space-between;  /* Espace entre les éléments */
+    align-items: center;            /* Centre verticalement les éléments */
+}
+
+.title_container {
+    flex: 1;                         /* Permet au conteneur du titre de prendre tout l'espace disponible */
+    display: flex;                  /* Utilise le modèle de boîte flexible pour centrer le titre */
+    justify-content: center;         /* Centre le titre horizontalement */
+}
+
+.edit_h2 {
+    margin: 0;                      /* Supprime les marges par défaut */
+}
+
+.modifier_text {
+    margin-left: auto;              /* Pousse le texte "Modifier" à droite */
+}
+
+
+
 h1{
 	display: flex;
 	flex-direction: column;
