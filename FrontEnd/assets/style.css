@@ -276,29 +276,50 @@ cursor: pointer;
 }
 
 .modal-wrapper{
+	display: flex;
+	flex-direction: column;
 	overflow: auto;
 	width: 400px;
 	max-width: calc(100vh - 20px);
 	max-height: calc(100vh - 20px);
 	padding: 20px;
 	background-color: white;
+	border-radius: 10px;
 
+}
+
+.js-modal-close{
+	display: flex;
+	justify-content: end;
+	background-color: transparent;
+	text-align: center;
+	border: transparent;
+	margin: 0;
+}
+
+.js-modal-close:hover{
+	cursor: pointer;
+}
+
+.modal-wrapper p {
+    text-align: center;
 }
 
 .gallery-modal {
     display: flex;
-    flex-wrap: wrap; /* Les images vont revenir à la ligne lorsqu'il n'y a plus d'espace */
-    gap: 5px; /* Espace entre les images */
-    justify-content: start; /* Centrer les images */
+    flex-wrap: wrap; 
+    gap: 5px; 
+    justify-content: start; 
 	margin: 45px;
 }
 
 .gallery-modal img {
-    width: 50px; /* Taille des images */
+    width: 50px; 
     height: auto;
     object-fit: cover;
 	margin-bottom: 10px;
 }
+
 
 .add-photo-section{
 	display: flex;
@@ -317,6 +338,22 @@ button.add-photo-btn{
 	border-radius: 60px ;
 	border: transparent;
 	
+}
+
+/* bouton hidden photo */
+
+.hide-button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.hide-button:hover {
+    background-color: #cc0000; /* Couleur au survol */
 }
 
 

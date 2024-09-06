@@ -48,12 +48,7 @@ function displayDataInModal() {
             const imageWork = document.createElement("img");
             imageWork.src = work.imageUrl;
             imageWork.alt = work.title;
-
-            // Suppression du figcaption pour ne pas afficher le titre
-            // const figcaption = document.createElement('figcaption');
-            // figcaption.innerText = work.title;
-            // figure.appendChild(figcaption);
-
+            
             figure.appendChild(imageWork);
             galleryModal.appendChild(figure);
         });
@@ -62,6 +57,41 @@ function displayDataInModal() {
     });
 }
 
-displayDataInModal(); // Appelle la fonction pour afficher les données dans le modal
+displayDataInModal(); 
 
+/* création des bouton pour rendre invisible les photos */
 
+function displayDataInModal() {
+    fetchData().then(data => {
+        galleryModal.innerHTML = ""; 
+        data.forEach(work => {
+            const figure = document.createElement("figure");
+            const imageWork = document.createElement("img");
+            imageWork.src = work.imageUrl;
+            imageWork.alt = work.title;
+            
+            // Création du bouton de suppression
+            const hideButton = document.createElement("button");
+            hideButton.innerText = "Cacher";
+            hideButton.classList.add("hide-button");
+
+            // Ajout d'un gestionnaire d'événements pour masquer l'image dans la modal et la galerie
+            hideButton.addEventListener("click", () => {
+                // Masquer l'image dans la modal
+                figure.style.display = "none"; 
+
+                // Masquer l'image dans la galerie principale
+                const figureInGallery = document.querySelector(`.figure-${work.id}`);
+                if (figureInGallery) {
+                    figureInGallery.style.display = "none";
+                }
+            });
+
+            figure.appendChild(imageWork);
+            figure.appendChild(hideButton); 
+            galleryModal.appendChild(figure);
+        });
+    }).catch(error => {
+        console.error("Error fetching data:", error);
+    });
+}
