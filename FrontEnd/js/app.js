@@ -6,10 +6,6 @@ async function fetchCategories () {
     const response = await fetch("http://localhost:5678/api/categories")
     return await response.json()
 }
-/* la fonction fetchCategorie permet d'appeler l'API pour recuperer dans ce cas les categories.
-return nous permet d'avoir le retour de la fonction et await, l'attente de la resolution de la demande.
-repsonseµ.json permet de recuperer cette reponse puis de la transformer en objet.  */
-
 
 
 // création fonction pour récuperer les data (réutilisable mot clé export!!)
@@ -17,7 +13,7 @@ repsonseµ.json permet de recuperer cette reponse puis de la transformer en obje
 async function fetchData () {
     const response = await fetch("http://localhost:5678/api/works")
     return await response.json()
-} /* Même cas que celui d'avant mais nous recuperon les data dans les works de l'api*/
+} 
 
 
 // création du menu filtre
@@ -26,49 +22,48 @@ function resetGallery () {
     gallery.innerHTML = ""
 
 }
-/*création de la fonction resetGallery puis resetGallery sert à réinitialiser le contenu d'un élément HTML avec l'id gallery */
 
 
 
 // création fonction pour filtrage du projet en fonction des catégories
 
-function updateGallery (categories) { /* création fonction pour mettre a jour la gallery en fonction du parametre demandé soit categories*/
-fetchData().then(data => { /* appel dela fonction fetchData, puis exection ed la fonction fléchée lors de la recuperation de la requette */
+function updateGallery (categories) { 
+fetchData().then(data => { 
     //vidage de l'affichage des projets
-    resetGallery() /* vide l'affichage de la gallery */
-    data.forEach(work => { /* !!! */
-        console.log(work) /* affichage de work dans la console */
-       const workId = work.id /* assignement de work.id à la variable workId */
-       if (categories === "all" || work.categoryId === categories) { /* verification que la catégorie en cours est bien celle selectionnée */
-        const figure = document.createElement("figure"); /* création d'un element figure pour chaque travail */
-        figure.classList.add('figure-${worksId}') /* cette ligne ajoute une classe css dynamique */
+    resetGallery() 
+    data.forEach(work => { 
+        console.log(work) 
+       const workId = work.id 
+       if (categories === "all" || work.categoryId === categories) { 
+        const figure = document.createElement("figure"); 
+        figure.classList.add('figure-${worksId}') 
         // création de balise image et figcaption
-        const imageWork = document.createElement("img")   /* création d'une balise img */
-        imageWork.src = work.imageUrl      /* assignement des image et des titre*/    
+        const imageWork = document.createElement("img")   
+        imageWork.src = work.imageUrl         
         imageWork.alt = work.title
 
-        const figcaption = document.createElement('figcaption');   /* création d'une balise figcaption */
+        const figcaption = document.createElement('figcaption');   
         figcaption.innerText = work.title; 
-        figure.appendChild(imageWork); /* ajout de image à figure */
-        figure.appendChild(figcaption);/* ajout de figcaption à figure*/
-        gallery.appendChild(figure);/* ajout de figure à gallery */
+        figure.appendChild(imageWork); 
+        figure.appendChild(figcaption);
+        gallery.appendChild(figure);
        }
 
 
     });
-}).catch(error => {console.log("Error fetching data" + error)}) /* gestion des erreur lors de la recuperation des données */
+}).catch(error => {console.log("Error fetching data" + error)}) 
 }
 
-updateGallery("all") /*appel de la fonction updateGallery avec le paramètre All */
+updateGallery("all") 
 
 // bouton filtre menu
-function boutonCreateFiltreMenu () { /*fonction pour créer les bouton filtre */
-    const filtreContainer = document.querySelector(".filter_container"); /* selection de la div pour  ajouter les boutons */
-    const boutonAll = document.createElement("button"); /*création du bouton */
-    boutonAll.classList.add("filtre-button"); /*ajout de la classe au bouton */
-    boutonAll.innerHTML = "Tous"; /*création du texte pour le bouton */
-    boutonAll.value = "all"; /*définition de la valeur du bouton */
-    filtreContainer.appendChild(boutonAll); /*ajout du bouton a la div*/
+function boutonCreateFiltreMenu () { 
+    const filtreContainer = document.querySelector(".filter_container"); 
+    const boutonAll = document.createElement("button"); 
+    boutonAll.classList.add("filtre-button"); 
+    boutonAll.innerHTML = "Tous"; 
+    boutonAll.value = "all"; 
+    filtreContainer.appendChild(boutonAll); 
 
     boutonAll.addEventListener("click", function(){  /* ajout de l'evenement click au bouton*/
         updateGallery("all"); /*appekl de la fonction pour tous afficher lorsque All est cliqué*/

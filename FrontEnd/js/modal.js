@@ -42,13 +42,13 @@ async function fetchData() {
 
 function displayDataInModal() {
     fetchData().then(data => {
-        galleryModal.innerHTML = ""; // Réinitialiser le contenu du modal
+        galleryModal.innerHTML = ""; 
         data.forEach(work => {
             const figure = document.createElement("figure");
             const imageWork = document.createElement("img");
             imageWork.src = work.imageUrl;
             imageWork.alt = work.title;
-            
+
             figure.appendChild(imageWork);
             galleryModal.appendChild(figure);
         });

@@ -5,10 +5,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     if (buttonLogout) {
         buttonLogout.addEventListener('click', (event) => {
-            event.preventDefault(); // Stop l'action par défaut
-
-            // Rediriger l'utilisateur vers la page de connexion ou d'accueil
-            window.location.href = 'index.html';
+            event.preventDefault(); 
+           localStorage.setItem('token',"");
+            window.location.href = 'login.html';
         });
     } else {
         console.log('Bouton de déconnexion non trouvé');

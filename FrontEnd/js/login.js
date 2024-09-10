@@ -4,7 +4,7 @@ const buttonLogin = document.querySelector('.login_button');
 
 buttonLogin.addEventListener('click', (event) => {
 
-    event.preventDefault(); // Stop l'action par défaut
+    event.preventDefault(); 
 
 
 //Récupération des valeurs pour charge utile fetch('')
