@@ -36,19 +36,19 @@ const closeModalOutside = function (e) {
 
 // Ouvrir la modal 2 depuis la modal 1
 document.getElementById('open-modal2').addEventListener('click', function () {
-    document.getElementById('modal1').style.display = "none"; // Fermer modal 1
-    document.getElementById('modal2').style.display = null;   // Ouvrir modal 2
+    document.getElementById('modal1').style.display = "none"; 
+    document.getElementById('modal2').style.display = null;  
     document.getElementById('modal2').setAttribute('aria-modal', 'true');
-    modal = document.getElementById('modal2');  // Set modal 2 as the current modal
+    modal = document.getElementById('modal2');  
     modal.addEventListener('click', closeModalOutside);
 });
 
 // Retour à la modal 1 depuis la modal 2
 document.getElementById('back-to-modal1').addEventListener('click', function () {
-    document.getElementById('modal2').style.display = "none"; // Fermer modal 2
-    document.getElementById('modal1').style.display = null;   // Réouvrir modal 1
+    document.getElementById('modal2').style.display = "none"; 
+    document.getElementById('modal1').style.display = null;   
     document.getElementById('modal1').setAttribute('aria-modal', 'true');
-    modal = document.getElementById('modal1');  // Set modal 1 as the current modal
+    modal = document.getElementById('modal1');  
     modal.addEventListener('click', closeModalOutside);
 });
 
@@ -65,7 +65,7 @@ document.querySelectorAll('.js-modal').forEach(a => {
     a.addEventListener('click', openModal);
 });
 
-/* intégration des elements gallery dans la modal */
+// intégration des elements gallery dans la modal
 
 const galleryModal = document.querySelector(".gallery-modal");
 
@@ -93,7 +93,7 @@ function displayDataInModal() {
 
 displayDataInModal(); 
 
-/* création des bouton pour rendre invisible les photos */
+// création des bouton pour rendre invisible les photos
 
 function displayDataInModal() {
     fetchData().then(data => {
@@ -111,7 +111,7 @@ function displayDataInModal() {
 
             // Ajout d'un gestionnaire d'événements pour masquer l'image dans la modal et la galerie
             hideButton.addEventListener("click", () => {
-                // Masquer l'image dans la modal
+                // Masquer image dans la modal
                 figure.style.display = "none"; 
 
                 // Masquer l'image dans la galerie principale
@@ -163,27 +163,27 @@ document.getElementById('validate-photo').addEventListener('click', function () 
     document.getElementById('photo-upload').value = null;
 });
 
-/* Fetch and populate categories for Modal 2 */
+// récupération des catégories pour modal 2
 
 async function populateCategorySelect() {
     const categorySelect = document.getElementById('photo-category');
-    categorySelect.innerHTML = '<option value="">Sélectionner une catégorie</option>'; // Reset options
+    categorySelect.innerHTML = '<option value="">Sélectionner une catégorie</option>';
 
     try {
-        const categories = await fetchCategories(); // Fetch categories from the API
+        const categories = await fetchCategories(); 
 
         categories.forEach(category => {
             const option = document.createElement('option');
             option.value = category.id;
             option.textContent = category.name;
-            categorySelect.appendChild(option); // Add each category as an option
+            categorySelect.appendChild(option);
         });
     } catch (error) {
         console.error('Error fetching categories:', error);
     }
 }
 
-// Call the function to populate categories when Modal 2 opens
+
 document.getElementById('open-modal2').addEventListener('click', function () {
-    populateCategorySelect(); // Populate categories in the select when opening Modal 2
+    populateCategorySelect(); 
 });
