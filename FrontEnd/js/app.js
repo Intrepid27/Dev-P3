@@ -65,32 +65,32 @@ function boutonCreateFiltreMenu () {
     boutonAll.value = "all"; 
     filtreContainer.appendChild(boutonAll); 
 
-    boutonAll.addEventListener("click", function(){  /* ajout de l'evenement click au bouton*/
-        updateGallery("all"); /*appekl de la fonction pour tous afficher lorsque All est cliqué*/
+    boutonAll.addEventListener("click", function(){  
+        updateGallery("all"); 
     })
 
-    fetchCategories().then( /*recuperation des catégorie via fetch */
+    fetchCategories().then( 
         categories => {
-            categories.forEach(category =>{ /*parcours de toutes les catégorie recuperées */
-                console.log(category) /*affichage de chaque catégorie dans la console */
-                const filtreButton = document.createElement("button"); /* création d'un bouton pour chaque catégorie */
-                filtreButton.classList.add("filtre-button"); /*ajout de la classe au bouton */
-                filtreButton.innerHTML = category.name;/*ajout du texte pour les boutons */
-                filtreButton.value = category.id; /*definition de la valeur des boutons */
-                filtreContainer.appendChild(filtreButton); /*ajout des bouton au container filtre */
+            categories.forEach(category =>{ 
+                console.log(category) 
+                const filtreButton = document.createElement("button"); 
+                filtreButton.classList.add("filtre-button"); 
+                filtreButton.innerHTML = category.name;
+                filtreButton.value = category.id; 
+                filtreContainer.appendChild(filtreButton); 
                 // appel fonction pour filtrage au click
-                filtreButton.addEventListener("click", function(){ /*ajout de l'événement click à chaque bouton */
-                    const categoryId = category.id; /* récuperation de l'identifiant de la catégorie*/
-                    if (categoryId === "all") { /*vérification si la catégorie selectionnée est all */
-                        updateGallery("all"); /*MAJ sur tous si all selectionné */
+                filtreButton.addEventListener("click", function(){ 
+                    const categoryId = category.id; 
+                    if (categoryId === "all") { 
+                        updateGallery("all"); 
                     } 
                     else {
-                        updateGallery(categoryId); /*sinon afficher la catégotie selectionnée */
+                        updateGallery(categoryId); 
                     }
                 })
             })
         }
-    ).catch(error => console.log(error)) /*gestion des erreurs qui pourrais cubvenir lors de la récuperation */
+    ).catch(error => console.log(error)) 
 }
 
-boutonCreateFiltreMenu() /*appel de la fonction  */
+boutonCreateFiltreMenu() 

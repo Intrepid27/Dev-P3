@@ -150,12 +150,8 @@ document.getElementById('validate-photo').addEventListener('click', function () 
         return;
     }
 
-    // formulaire envoi photos
-    console.log('Form submitted with:', {
-        photoFile,
-        title,
-        category,
-    });
+    // réponse de l'envoi photos
+    console.log('Form submitted with:', { photoFile, title, category,});
 
     // clear du formulaire après soumission  
     document.getElementById('photo-title').value = '';
