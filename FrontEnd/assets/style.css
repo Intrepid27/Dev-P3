@@ -64,8 +64,7 @@ section {
 
 /*--- header edit ---*/
 
-
-.headband{
+.headband {
 	display: flex;
 	width: 100vw;
 	height: 50px;
@@ -75,7 +74,7 @@ section {
 	align-items: center;
 }
 
-.menu{
+.menu {
 	grid-column: 2 / 3;
   	grid-row: 2;
 }
@@ -102,52 +101,47 @@ section {
 	margin-bottom: 1.5em;
 	text-decoration: none;
     color: inherit;
-
 }
 
-
-
-.modifier_text a{
+.modifier_text a {
 	text-decoration: none;
 	color: black;
 }
-
 
 .material-symbols-outlined {
     font-size: 1.2em; 
     margin-right: 5px; 
 }
 
-
-h1{
+h1 {
 	display: flex;
 	flex-direction: column;
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
-	color: #B1663C
+	color: #B1663C;
 }
 
 h1 > span {
 	font-family: 'Work Sans';
-	font-size:10px;
+	font-size: 10px;
 	letter-spacing: 0.1em;
-;
 }
 
-h2{
+h2 {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
 }
+
 nav ul {
 	display: flex;
 	justify-content: end;
 	align-items: center;
 	list-style-type: none;
-
 }
+
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
@@ -157,37 +151,38 @@ li:hover {
 	color: #B1663C;
 }
 
-.nav_button{
+.nav_button {
 	border: transparent;
 	background-color: transparent;
 	text-decoration: none;
-	font-family: 'Work Sans' ;
+	font-family: 'Work Sans';
 	font-size: 1em;
 	color: black;
 }
-.nav_button:hover{
+
+.nav_button:hover {
 	color: #B1663C;
-}
-.nav_button:hover{
 	cursor: pointer;
 }
 
-.nav_acceuil{
-color: #B1663C;
-text-decoration: none;
-}
-.nav_acceuil:hover{
-cursor: pointer;
+.nav_acceuil {
+	color: #B1663C;
+	text-decoration: none;
 }
 
+.nav_acceuil:hover {
+	cursor: pointer;
+}
 
 #introduction {
 	display: flex;
 	align-items: center;
 }
+
 #introduction figure {
-	flex: 1
+	flex: 1;
 }
+
 #introduction img {
 	display: block;
 	margin: auto;
@@ -195,8 +190,9 @@ cursor: pointer;
 }
 
 #introduction article {
-	flex: 1
+	flex: 1;
 }
+
 #introduction h2 {
 	margin-bottom: 1em;
 }
@@ -204,6 +200,7 @@ cursor: pointer;
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
@@ -211,11 +208,11 @@ cursor: pointer;
 
 /*------ création page login ------*/
 
-#login{
+#login {
 	margin-top: 100px;
 }
 
-#login h2{
+#login h2 {
 	text-align: center;
 	margin-bottom: 1em;	
 }
@@ -224,17 +221,16 @@ cursor: pointer;
 	width: 50%;
 	margin: auto;
 }
+
 #form_login a {
 	display: flex;
 	justify-content: center;
 	color: black;
-
-
 }
 
 #form_login form {
 	text-align: left;
-	margin-top:30px;
+	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 }
@@ -245,15 +241,16 @@ cursor: pointer;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #form_login label {
 	margin: 2em 0 1em 0;
 }
 
-.login_button:hover{
+.login_button:hover {
 	cursor: pointer;
 }
 
-.errorMessage{
+.errorMessage {
 	color: red;
 }
 
@@ -263,7 +260,7 @@ cursor: pointer;
 	box-sizing: border-box;
 }
 
-.modal{
+.modal {
 	position: fixed;
 	display: flex;
 	align-items: center;
@@ -275,7 +272,7 @@ cursor: pointer;
 	background: rgba(0, 0, 0, 0.8);
 }
 
-.modal-wrapper{
+.modal-wrapper {
 	display: flex;
 	flex-direction: column;
 	overflow: auto;
@@ -285,10 +282,9 @@ cursor: pointer;
 	padding: 20px;
 	background-color: white;
 	border-radius: 10px;
-
 }
 
-.js-modal-close{
+.js-modal-close {
 	display: flex;
 	justify-content: end;
 	background-color: transparent;
@@ -297,71 +293,75 @@ cursor: pointer;
 	margin: 0;
 }
 
-.js-modal-close:hover{
+.js-modal-close:hover {
 	cursor: pointer;
-}
-
-.modal-wrapper p {
-    text-align: center;
-}
-
-.gallery-modal {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 5px; 
-    justify-content: start; 
-	margin: 45px;
-}
-
-.gallery-modal img {
-    width: 50px; 
-    height: auto;
-    object-fit: cover;
-	margin-bottom: 10px;
 }
 
 .separator {
     width: 100%;
     height: 1px;
-    background-color: black; 
+    background-color: black;
     margin: 20px 0;
 }
 
-
-
-.add-photo-section{
+.add-photo-section {
 	display: flex;
 	justify-content: center;
 }
 
-button.add-photo-btn{
+button.add-photo-btn {
 	justify-content: center;
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin: 2em auto;
 	width: 180px;
 	text-align: center;
-	border-radius: 60px ;
+	border-radius: 60px;
 	border: transparent;
-	
 }
 
-/* bouton hidden photo */
+/* --- Modification bouton "Cacher" en haut à droite --- */
+
+.image-container {
+	position: relative; 
+	display: inline-block;
+	display: flex;
+    flex-wrap: wrap; 
+    gap: 5px; 
+    justify-content: start; 
+	margin: 10px;
+}
+
+.image-container img {
+	display: block;
+	width: 50px; 
+	height: auto;
+}
+
+.gallery-modal {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	margin-left: 20px;
+}
 
 .hide-button {
-    background-color: #ff0000;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    margin-top: 5px;
-    cursor: pointer;
-    font-size: 14px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: black;
+	border: none;
+	color: white;
+	padding: 5px 10px;
+	cursor: pointer;
+	font-size: 12px;
+	border-radius: 5px;
 }
 
 .hide-button:hover {
-    background-color: #cc0000; 
+	background-color: rgba(255, 0, 0, 1); /* Change la couleur au survol */
 }
 
 /* Styles for modal 2 - Ajout photo */
@@ -437,42 +437,37 @@ button.add-photo-btn{
     background-color: #145138;
 }
 
-
-
 /* --- Menu filtre --- */
+
 .filter_container {
 	display: flex;
 	justify-content: center;
 	text-align: center;
-	
-	
 }
 
-.filtre-button{
+.filtre-button {
 	display: flex;
 	align-items: center;
 	font-family: 'Syne';
 	font-weight: 700;
 	color: #1D6154;
 	background-color: white;
-	margin : 2em 0.5em 4em ;
+	margin: 2em 0.5em 4em;
 	width: auto;
 	text-align: center;
-	border-radius: 60px ;
+	border-radius: 60px;
 	border: solid #1D6154 1px;
 	padding: 15px;
 	height: 30px;
-
 }
 
-.filtre-button:hover{
+.filtre-button:hover {
 	cursor: pointer;
 	color: white;
 	background-color: #1D6154;
 }
 
-.filtre-button:focus{
-
+.filtre-button:focus {
 	color: white;
 	background-color: #1D6154;
 }
@@ -489,22 +484,24 @@ button.add-photo-btn{
 
 .gallery img {
 	width: 100%;
-
 }
+
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
+
 #contact > * {
 	text-align: center;
-
 }
-#contact h2{
+
+#contact h2 {
 	margin-bottom: 20px;
 }
+
 #contact form {
 	text-align: left;
-	margin-top:30px;
+	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 }
@@ -515,28 +512,29 @@ margin: auto;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label {
 	margin: 2em 0 1em 0;
 }
+
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin: 2em auto;
 	width: 180px;
 	text-align: center;
-	border-radius: 60px ;
+	border-radius: 60px;
 }
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
 }
-

@@ -74,36 +74,18 @@ async function fetchData() {
     return await response.json();
 }
 
+// Affichage des données dans la modal avec bouton en haut à droite
 function displayDataInModal() {
     fetchData().then(data => {
         galleryModal.innerHTML = ""; 
         data.forEach(work => {
             const figure = document.createElement("figure");
-            const imageWork = document.createElement("img");
-            imageWork.src = work.imageUrl;
-            imageWork.alt = work.title;
-
-            figure.appendChild(imageWork);
-            galleryModal.appendChild(figure);
-        });
-    }).catch(error => {
-        console.error("Error fetching data:", error);
-    });
-}
-
-displayDataInModal(); 
-
-// création des bouton pour rendre invisible les photos
-
-function displayDataInModal() {
-    fetchData().then(data => {
-        galleryModal.innerHTML = ""; 
-        data.forEach(work => {
-            const figure = document.createElement("figure");
-            const imageWork = document.createElement("img");
-            imageWork.src = work.imageUrl;
-            imageWork.alt = work.title;
+            figure.classList.add("image-container"); // Ajout d'une classe pour le conteneur d'image
             
+            const imageWork = document.createElement("img");
+            imageWork.src = work.imageUrl;
+            imageWork.alt = "";  // Pas de titre pour l'image
+
             // Création du bouton de suppression
             const hideButton = document.createElement("button");
             hideButton.innerText = "Cacher";
@@ -111,8 +93,8 @@ function displayDataInModal() {
 
             // Ajout d'un gestionnaire d'événements pour masquer l'image dans la modal et la galerie
             hideButton.addEventListener("click", () => {
-                // Masquer image dans la modal
-                figure.style.display = "none"; 
+                // Masquer l'image dans la modal
+                figure.style.display = "none";
 
                 // Masquer l'image dans la galerie principale
                 const figureInGallery = document.querySelector(`.figure-${work.id}`);
@@ -121,14 +103,17 @@ function displayDataInModal() {
                 }
             });
 
+            // Ajout des éléments dans la figure
             figure.appendChild(imageWork);
-            figure.appendChild(hideButton); 
+            figure.appendChild(hideButton);
             galleryModal.appendChild(figure);
         });
     }).catch(error => {
         console.error("Error fetching data:", error);
     });
 }
+
+displayDataInModal(); 
 
 //* ajout photo *//
 
@@ -178,7 +163,6 @@ async function populateCategorySelect() {
         console.error('Error fetching categories:', error);
     }
 }
-
 
 document.getElementById('open-modal2').addEventListener('click', function () {
     populateCategorySelect(); 
