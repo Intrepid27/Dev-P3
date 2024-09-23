@@ -70,22 +70,24 @@
             <!-- Modal 2 ajout photo -->
 <aside id="modal2" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="modal-title" style="display: none;">
     <div class="modal-wrapper">
+        <div class="head-modal2">
 		<button class="js-modal-close">
 			<span class="material-symbols-outlined">close</span>
 		</button>
         <button class="js-modal-close" id="back-to-modal1">
             <span class="material-symbols-outlined">arrow_back</span>
         </button>
+        </div>
         <p id="modal-title">Ajout photo</p>
 
         <!-- Section ajout photo -->
         <div class="add-photo-form">
             <div class="add-photo-placeholder">
                 <label for="photo-upload" class="photo-upload-label">
-                    <span class="material-symbols-outlined">
+                    <i class="material-symbols-outlined">
                         imagesmode
-                        </span>
-                    <p>+ Ajouter photo</p>
+                    </i>
+                    <p class="add-photo-btn2">+ Ajouter photo</p>
                     <p>jpg, png : 4mo max</p>
                 </label>
                 <input type="file" id="photo-upload" class="photo-upload-input" accept=".jpg, .jpeg, .png">

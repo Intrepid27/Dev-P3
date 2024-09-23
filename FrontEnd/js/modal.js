@@ -65,7 +65,7 @@ document.querySelectorAll('.js-modal').forEach(a => {
     a.addEventListener('click', openModal);
 });
 
-// intégration des elements gallery dans la modal
+// intégration des éléments gallery dans la modal
 
 const galleryModal = document.querySelector(".gallery-modal");
 
@@ -116,13 +116,14 @@ function displayDataInModal() {
 
 displayDataInModal(); 
 
-//* ajout photo *//
+//* ajout photo avec fetch et gestion des erreurs détaillée *//
 
-document.getElementById('validate-photo').addEventListener('click', function () {
+document.getElementById('validate-photo').addEventListener('click', async function () {
     const photoFile = document.getElementById('photo-upload').files[0];
     const title = document.getElementById('photo-title').value;
     const category = document.getElementById('photo-category').value;
 
+    // Vérification du fichier et des champs
     if (!photoFile) {
         alert('Veuillez ajouter une photo.');
         return;
@@ -136,16 +137,54 @@ document.getElementById('validate-photo').addEventListener('click', function () 
         return;
     }
 
-    // réponse de l'envoi photos
-    console.log('Form submitted with:', { photoFile, title, category,});
+    // Vérification des types de fichier autorisés
+    const allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!allowedFileTypes.includes(photoFile.type)) {
+        alert('Veuillez sélectionner un fichier image valide (JPEG, PNG ou GIF).');
+        return;
+    }
 
-    // clear du formulaire après soumission  
-    document.getElementById('photo-title').value = '';
-    document.getElementById('photo-category').value = '';
-    document.getElementById('photo-upload').value = null;
+    const formData = new FormData();
+    formData.append('photo', photoFile);
+    formData.append('title', title);
+    formData.append('category', category);
+
+    try {
+        const response = await fetch('http://localhost:5678/api/works', {
+            method: 'POST',
+            body: formData,
+        });
+
+        // Gestion de la réponse
+        if (response.ok) {
+            const result = await response.json();
+            alert('Photo ajoutée avec succès !');
+            console.log('Response:', result);
+
+            // Réinitialisation du formulaire après succès
+            document.getElementById('photo-title').value = '';
+            document.getElementById('photo-category').value = '';
+            document.getElementById('photo-upload').value = null;
+        } else {
+            // Affichage du statut HTTP pour diagnostiquer l'erreur
+            console.error('Erreur HTTP:', response.status, response.statusText);
+            alert(`Une erreur est survenue lors de l'ajout de la photo. Statut: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Erreur réseau:', error);
+        alert('Erreur de connexion au serveur.');
+    }
 });
 
 // récupération des catégories pour modal 2
+
+async function fetchCategories() {
+    const response = await fetch('http://localhost:5678/api/categories');
+    if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des catégories');
+    }
+    return await response.json();
+}
 
 async function populateCategorySelect() {
     const categorySelect = document.getElementById('photo-category');

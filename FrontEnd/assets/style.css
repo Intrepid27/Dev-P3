@@ -383,10 +383,29 @@ button.add-photo-btn {
 
 
 /* Styles for modal 2 - Ajout photo */
+
+.head-modal2{
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	
+
+}
+
 .add-photo-form {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.add-photo-placeholder i.material-symbols-outlined {
+    font-size: 100px;  
+	color: rgba(184, 184, 184, 0.454);
+}
+
+.add-photo-placeholder p {
+    margin-top: 10px; 
+    margin-bottom: 10px; 
 }
 
 .add-photo-placeholder {
@@ -394,14 +413,15 @@ button.add-photo-btn {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f2f2f2;
-    border-radius: 10px;
+    background-color: #c2e2f553;
+    border-radius: 5px;
     padding: 20px;
     width: 100%;
     max-width: 300px;
     height: 200px;
     margin-bottom: 20px;
     text-align: center;
+    gap: 15px;
 }
 
 .add-photo-placeholder img {
@@ -413,6 +433,19 @@ button.add-photo-btn {
 .photo-upload-input {
     display: none;
 }
+
+.add-photo-btn2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 180px;
+    color: rgb(57, 57, 107);
+    background-color: rgba(184, 184, 184, 0.454);
+    border-radius: 40px;
+    text-align: center;
+}
+
 
 .photo-upload-label {
     cursor: pointer;
