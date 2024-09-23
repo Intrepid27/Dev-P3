@@ -80,16 +80,17 @@ function displayDataInModal() {
         galleryModal.innerHTML = ""; 
         data.forEach(work => {
             const figure = document.createElement("figure");
-            figure.classList.add("image-container"); // Ajout d'une classe pour le conteneur d'image
+            figure.classList.add("image-container");
             
             const imageWork = document.createElement("img");
             imageWork.src = work.imageUrl;
-            imageWork.alt = "";  // Pas de titre pour l'image
+            imageWork.alt = "";  
 
             // Création du bouton de suppression
             const hideButton = document.createElement("button");
-            hideButton.innerText = "Cacher";
+            hideButton.innerHTML ='<span class="material-symbols-outlined">delete</span>';
             hideButton.classList.add("hide-button");
+            
 
             // Ajout d'un gestionnaire d'événements pour masquer l'image dans la modal et la galerie
             hideButton.addEventListener("click", () => {
