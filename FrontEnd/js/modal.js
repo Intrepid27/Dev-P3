@@ -74,33 +74,58 @@ async function fetchData() {
     return await response.json();
 }
 
+// Fonction pour supprimer une photo
+async function deletePhoto(id) {
+    const token = window.localStorage.getItem('token');
+    if (!token) {
+        alert('Vous devez être connecté pour supprimer une photo.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`  // Ajout du token dans les headers
+            }
+        });
+
+        if (response.ok) {
+            alert('Photo supprimée avec succès.');
+            document.querySelector(`.figure-${id}`).remove();  // Retirer la photo de la galerie après suppression
+        } else {
+            const errorData = await response.json();
+            console.error('Erreur HTTP:', response.status, response.statusText);
+            console.log('Détails de l\'erreur:', errorData);
+            alert(`Erreur ${response.status}: ${errorData.message || 'Problème lors de la suppression de la photo'}`);
+        }
+    } catch (error) {
+        console.error('Erreur réseau:', error);
+        alert('Erreur de connexion au serveur.');
+    }
+}
+
 // Affichage des données dans la modal avec bouton en haut à droite
 function displayDataInModal() {
     fetchData().then(data => {
         galleryModal.innerHTML = ""; 
         data.forEach(work => {
             const figure = document.createElement("figure");
-            figure.classList.add("image-container");
+            figure.classList.add("image-container", `figure-${work.id}`);
             
             const imageWork = document.createElement("img");
             imageWork.src = work.imageUrl;
             imageWork.alt = "";  
 
-            // Création du bouton de suppression
+            // Création du bouton "cacher" mais qui supprime en réalité
             const hideButton = document.createElement("button");
             hideButton.innerHTML ='<span class="material-symbols-outlined">delete</span>';
             hideButton.classList.add("hide-button");
-            
 
-            // Ajout d'un gestionnaire d'événements pour masquer l'image dans la modal et la galerie
+            // Ajout d'un gestionnaire d'événements pour supprimer l'image au lieu de la masquer
             hideButton.addEventListener("click", () => {
-                // Masquer l'image dans la modal
-                figure.style.display = "none";
-
-                // Masquer l'image dans la galerie principale
-                const figureInGallery = document.querySelector(`.figure-${work.id}`);
-                if (figureInGallery) {
-                    figureInGallery.style.display = "none";
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette photo ?')) {
+                    deletePhoto(work.id);  // Appel de la fonction deletePhoto avec l'ID de la photo
                 }
             });
 
@@ -149,26 +174,35 @@ document.getElementById('validate-photo').addEventListener('click', async functi
     formData.append('title', title);
     formData.append('category', category);
 
+    // Récupération du token dans le localStorage
+    const token = window.localStorage.getItem('token');
+    console.log('Token récupéré:', token);  // Vérification de la récupération du token
+    if (!token) {
+        alert('Vous devez être connecté pour ajouter une photo.');
+        return;
+    }
+
     try {
         const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`  // Ajout du token dans les headers
+            },
             body: formData,
         });
 
         // Gestion de la réponse
-        if (response.ok) {
-            const result = await response.json();
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Erreur HTTP:', response.status, response.statusText);
+            console.log('Détails de l\'erreur:', errorData);
+            alert(`Erreur ${response.status}: ${errorData.message || 'Problème lors de l\'ajout de la photo'}`);
+        } else {
             alert('Photo ajoutée avec succès !');
-            console.log('Response:', result);
-
             // Réinitialisation du formulaire après succès
             document.getElementById('photo-title').value = '';
             document.getElementById('photo-category').value = '';
             document.getElementById('photo-upload').value = null;
-        } else {
-            // Affichage du statut HTTP pour diagnostiquer l'erreur
-            console.error('Erreur HTTP:', response.status, response.statusText);
-            alert(`Une erreur est survenue lors de l'ajout de la photo. Statut: ${response.status}`);
         }
     } catch (error) {
         console.error('Erreur réseau:', error);
@@ -207,3 +241,33 @@ async function populateCategorySelect() {
 document.getElementById('open-modal2').addEventListener('click', function () {
     populateCategorySelect(); 
 });
+
+// ajout de la prévisualisation de l'image avant upload
+
+function previewImage() {
+    const file = document.getElementById('photo-upload').files[0];
+    const preview = document.getElementById('image-preview');
+    const label = document.querySelector('.photo-upload-label');
+    const icon = document.querySelector('.add-photo-placeholder i');
+    const text = document.querySelector('.add-photo-placeholder p');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = "block"; // Show the preview image
+            label.style.display = "none"; // Hide the label
+            icon.style.display = "none"; // Hide the icon
+            text.style.display = "none"; // Hide the text
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+        preview.style.display = "none"; // Hide the preview if no file
+        label.style.display = "flex"; // Show the label again
+        icon.style.display = "block"; // Show the icon again
+        text.style.display = "block"; // Show the text again
+    }
+}
+
+
