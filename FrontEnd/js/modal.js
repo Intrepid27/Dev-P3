@@ -1,5 +1,5 @@
 /* ouverture et fermeture de la modal */
-
+const token = window.localStorage.getItem('token');
 let modal = null;
 
 const openModal = function (e) {
@@ -76,17 +76,18 @@ async function fetchData() {
 
 // Fonction pour supprimer une photo
 async function deletePhoto(id) {
-    const token = window.localStorage.getItem('token');
-    if (!token) {
+   // const token = window.localStorage.getItem('token');
+   console.log(token)
+    /* if (!token) {
         alert('Vous devez être connecté pour supprimer une photo.');
         return;
-    }
+    } */
 
     try {
         const response = await fetch(`http://localhost:5678/api/works/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`  // Ajout du token dans les headers
+                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyNzE2NzYwNywiZXhwIjoxNzI3MjU0MDA3fQ.Z2u_O3kLS1IpT_C-MZlQmejlpOD3mw0vYKmDBcKyRX0`  // Ajout du token dans les headers
             }
         });
 
@@ -175,18 +176,18 @@ document.getElementById('validate-photo').addEventListener('click', async functi
     formData.append('category', category);
 
     // Récupération du token dans le localStorage
-    const token = window.localStorage.getItem('token');
-    console.log('Token récupéré:', token);  // Vérification de la récupération du token
+    
+    /*console.log('Token récupéré:', token);  // Vérification de la récupération du token
     if (!token) {
         alert('Vous devez être connecté pour ajouter une photo.');
         return;
-    }
+    } */
 
     try {
         const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`  // Ajout du token dans les headers
+                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyNzE2NzYwNywiZXhwIjoxNzI3MjU0MDA3fQ.Z2u_O3kLS1IpT_C-MZlQmejlpOD3mw0vYKmDBcKyRX0`  // Ajout du token dans les headers
             },
             body: formData,
         });
