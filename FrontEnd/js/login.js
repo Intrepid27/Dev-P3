@@ -1,43 +1,56 @@
+// Sélection des éléments du DOM
 const form = document.querySelector('#formLogin');
 const errorMessage = document.querySelector('.errorMessage');
 const buttonLogin = document.querySelector('.login_button');
 
+// Ajout de l'événement de clic pour le bouton de connexion
 buttonLogin.addEventListener('click', (event) => {
 
-    event.preventDefault(); 
+    event.preventDefault();  
 
+    // Récupération des valeurs du formulaire
+    const emailInput = document.getElementById('email').value;
+    const passwordInput = document.getElementById('password').value;
 
-//Récupération des valeurs pour charge utile fetch('')
-const emailInput = document.getElementById('email').value;
-const passwordInput = document.getElementById('password').value;
+    // Création de l'objet de données pour la charge utile
+    let dataForm = {
+        email: emailInput,
+        password: passwordInput
+    };
 
-// Création de des données pour charge utile
-let dataForm = {
-    email : emailInput,
-    password : passwordInput
-}
+    // Conversion de l'objet en JSON pour l'envoyer dans la requête
+    const chargeUtile = JSON.stringify(dataForm);
 
-// Création de la charge utile au format JSON
-const chargeUtile = JSON.stringify(dataForm)
-
-//Appel de la fonction FETCH
-fetch ('http://localhost:5678/api/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-      body: chargeUtile
+    // Appel à l'API de connexion
+    fetch('http://localhost:5678/api/users/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: chargeUtile
     })
-    .then (data => data.json())
-    .then (data => {
-        if(data.token){
-            window.localStorage.setItem('token', data.token); 
-            window.location.href = 'edit.html';
-        } else {
-            errorMessage.innerHTML="Erreur dans l'identifiant ou le mot de passe";
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP: ${response.status}`);
         }
-    }).catch(error => console.log(error));
+        return response.json();  
+    })
+    .then(data => {
+        console.log('Réponse API:', data);  
+
+        // Vérification si le token est présent dans la réponse
+        if (data.token) {
+            window.localStorage.setItem('token', data.token); 
+            console.log('Token stocké:', window.localStorage.getItem('token'));  
+            window.location.href = 'edit.html';  
+        } else {
+            // Affichage d'un message d'erreur si le token est absent
+            errorMessage.innerHTML = "Erreur dans l'identifiant ou le mot de passe";
+        }
+    })
+    .catch(error => {
+        // Gestion des erreurs, y compris les erreurs réseau
+        console.error('Erreur réseau ou serveur:', error);
+        errorMessage.innerHTML = "Une erreur est survenue. Veuillez réessayer.";
+    });
 });
-
-
-

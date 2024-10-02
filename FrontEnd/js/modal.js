@@ -1,5 +1,6 @@
+const token = window.localStorage.getItem('token'); // Récupération du token depuis le localStorage
+
 /* ouverture et fermeture de la modal */
-const token = window.localStorage.getItem('token');
 let modal = null;
 
 const openModal = function (e) {
@@ -76,24 +77,23 @@ async function fetchData() {
 
 // Fonction pour supprimer une photo
 async function deletePhoto(id) {
-   // const token = window.localStorage.getItem('token');
-   console.log(token)
-    /* if (!token) {
+    const token = window.localStorage.getItem('token');
+    if (!token) {
         alert('Vous devez être connecté pour supprimer une photo.');
         return;
-    } */
+    }
 
     try {
         const response = await fetch(`http://localhost:5678/api/works/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyNzE2NzYwNywiZXhwIjoxNzI3MjU0MDA3fQ.Z2u_O3kLS1IpT_C-MZlQmejlpOD3mw0vYKmDBcKyRX0`  // Ajout du token dans les headers
+                'Authorization': `Bearer ${token}`  // Ajout du token dans les headers
             }
         });
 
         if (response.ok) {
             alert('Photo supprimée avec succès.');
-            document.querySelector(`.figure-${id}`).remove();  // Retirer la photo de la galerie après suppression
+            document.querySelector(`.figure-${id}`).remove();
         } else {
             const errorData = await response.json();
             console.error('Erreur HTTP:', response.status, response.statusText);
@@ -175,19 +175,17 @@ document.getElementById('validate-photo').addEventListener('click', async functi
     formData.append('title', title);
     formData.append('category', category);
 
-    // Récupération du token dans le localStorage
-    
-    /*console.log('Token récupéré:', token);  // Vérification de la récupération du token
+    const token = window.localStorage.getItem('token'); 
     if (!token) {
         alert('Vous devez être connecté pour ajouter une photo.');
         return;
-    } */
+    } 
 
     try {
         const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyNzE2NzYwNywiZXhwIjoxNzI3MjU0MDA3fQ.Z2u_O3kLS1IpT_C-MZlQmejlpOD3mw0vYKmDBcKyRX0`  // Ajout du token dans les headers
+                'Authorization': `Bearer ${token}`
             },
             body: formData,
         });
@@ -256,19 +254,42 @@ function previewImage() {
         const reader = new FileReader();
         reader.onload = function (e) {
             preview.src = e.target.result;
-            preview.style.display = "block"; // Show the preview image
-            label.style.display = "none"; // Hide the label
-            icon.style.display = "none"; // Hide the icon
-            text.style.display = "none"; // Hide the text
+            preview.style.display = "block"; 
+            label.style.display = "none"; 
+            icon.style.display = "none"; 
+            text.style.display = "none"; 
         };
         reader.readAsDataURL(file);
     } else {
         preview.src = "";
-        preview.style.display = "none"; // Hide the preview if no file
-        label.style.display = "flex"; // Show the label again
-        icon.style.display = "block"; // Show the icon again
-        text.style.display = "block"; // Show the text again
+        preview.style.display = "none"; 
+        label.style.display = "flex"; 
+        icon.style.display = "block"; 
+        text.style.display = "block"; 
     }
 }
 
+// Fonction de validation du formulaire
+function validateForm() {
+    const photoFile = document.getElementById('photo-upload').files[0];
+    const title = document.getElementById('photo-title').value.trim();
+    const category = document.getElementById('photo-category').value;
+    const submitButton = document.getElementById('validate-photo');
 
+    // Conditions de validation : photo, titre et catégorie doivent être présents
+    if (photoFile && title && category) {
+        submitButton.disabled = false;  // Activer le bouton si toutes les conditions sont remplies
+    } else {
+        submitButton.disabled = true;   // Désactiver le bouton si une des conditions n'est pas remplie
+    }
+}
+
+// Écouter les événements de changement sur les champs du formulaire
+document.getElementById('photo-upload').addEventListener('change', validateForm);
+document.getElementById('photo-title').addEventListener('input', validateForm);
+document.getElementById('photo-category').addEventListener('change', validateForm);
+
+// Désactiver le bouton "Valider" au chargement de la page
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('validate-photo').disabled = true;
+});
