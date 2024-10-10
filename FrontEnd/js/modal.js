@@ -145,9 +145,9 @@ displayDataInModal();
 //* ajout photo avec fetch et gestion des erreurs détaillée *//
 
 document.getElementById('validate-photo').addEventListener('click', async function () {
-    const photoFile = document.getElementById('photo-upload').files[0];
-    const title = document.getElementById('photo-title').value;
-    const category = document.getElementById('photo-category').value;
+    const photoFile = document.getElementById('photo-upload').files[0]; // Le fichier image
+    const title = document.getElementById('photo-title').value; // Titre de la photo
+    const categoryId = document.getElementById('photo-category').value; // Catégorie sélectionnée
 
     // Vérification du fichier et des champs
     if (!photoFile) {
@@ -158,7 +158,7 @@ document.getElementById('validate-photo').addEventListener('click', async functi
         alert('Veuillez ajouter un titre.');
         return;
     }
-    if (!category) {
+    if (!categoryId) {
         alert('Veuillez sélectionner une catégorie.');
         return;
     }
@@ -170,31 +170,33 @@ document.getElementById('validate-photo').addEventListener('click', async functi
         return;
     }
 
+    // Création de l'objet FormData pour envoyer les données
     const formData = new FormData();
-    formData.append('photo', photoFile);
-    formData.append('title', title);
-    formData.append('category', category);
+    formData.append('photo', photoFile); 
+    formData.append('title', title); 
+    formData.append('categoryId', categoryId); 
 
+    // Récupération du token d'authentification
     const token = window.localStorage.getItem('token'); 
     if (!token) {
         alert('Vous devez être connecté pour ajouter une photo.');
         return;
-    } 
+    }
 
+    // Envoi des données au serveur via fetch
     try {
         const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}` // En-tête avec le token
             },
-            body: formData,
+            body: formData 
         });
 
         // Gestion de la réponse
         if (!response.ok) {
             const errorData = await response.json();
             console.error('Erreur HTTP:', response.status, response.statusText);
-            console.log('Détails de l\'erreur:', errorData);
             alert(`Erreur ${response.status}: ${errorData.message || 'Problème lors de l\'ajout de la photo'}`);
         } else {
             alert('Photo ajoutée avec succès !');

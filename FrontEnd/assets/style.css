@@ -66,13 +66,17 @@ section {
 
 .headband {
     display: flex;
-    width: 100vw;
+    width: 100vw; /* Pour occuper toute la largeur de la fenêtre */
     height: 50px;
     color: white;
     background-color: black;
     justify-content: center;
     align-items: center;
+    position: relative; /* Ou position: absolute; si vous voulez qu'elle soit fixe et ne dépende pas du flux de la page */
+    left: 50%; /* Ajuster à la gauche du contenu */
+    transform: translateX(-50vw); /* Truc pour la rendre plus large que le body */
 }
+
 
 .menu {
     grid-column: 2 / 3;
