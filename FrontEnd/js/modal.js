@@ -28,23 +28,23 @@ const closeModal = function (e) {
     modal = null;
 };
 
-// Fonction fermeture modal en cliquant à l'extérieur
 const closeModalOutside = function (e) {
     if (e.target === modal) {
         closeModal(e);
     }
 };
 
-// Ouvrir la modal 2 depuis la modal 1
 document.getElementById('open-modal2').addEventListener('click', function () {
     document.getElementById('modal1').style.display = "none"; 
     document.getElementById('modal2').style.display = null;  
     document.getElementById('modal2').setAttribute('aria-modal', 'true');
     modal = document.getElementById('modal2');  
     modal.addEventListener('click', closeModalOutside);
+
+    // Appel de la fonction pour peupler les catégories
+    populateCategorySelect(); 
 });
 
-// Retour à la modal 1 depuis la modal 2
 document.getElementById('back-to-modal1').addEventListener('click', function () {
     document.getElementById('modal2').style.display = "none"; 
     document.getElementById('modal1').style.display = null;   
@@ -53,60 +53,20 @@ document.getElementById('back-to-modal1').addEventListener('click', function () 
     modal.addEventListener('click', closeModalOutside);
 });
 
-// Add event listener to close modal 2
-document.getElementById('modal2').querySelector('.js-modal-close').addEventListener('click', function () {
-    document.getElementById('modal2').style.display = "none";
-    document.getElementById('modal2').setAttribute('aria-hidden', 'true');
-    document.getElementById('modal2').removeAttribute('aria-modal');
-    modal.removeEventListener('click', closeModalOutside);
-    modal = null;
-});
-
 document.querySelectorAll('.js-modal').forEach(a => {
     a.addEventListener('click', openModal);
 });
 
-// intégration des éléments gallery dans la modal
-
 const galleryModal = document.querySelector(".gallery-modal");
 
 async function fetchData() {
+    console.log('Fetching data...');
     const response = await fetch("http://localhost:5678/api/works");
-    return await response.json();
+    const data = await response.json();
+    console.log('Data fetched:', data); // Ajout de log pour voir les données récupérées
+    return data;
 }
 
-// Fonction pour supprimer une photo
-async function deletePhoto(id) {
-    const token = window.localStorage.getItem('token');
-    if (!token) {
-        alert('Vous devez être connecté pour supprimer une photo.');
-        return;
-    }
-
-    try {
-        const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`  // Ajout du token dans les headers
-            }
-        });
-
-        if (response.ok) {
-            alert('Photo supprimée avec succès.');
-            document.querySelector(`.figure-${id}`).remove();
-        } else {
-            const errorData = await response.json();
-            console.error('Erreur HTTP:', response.status, response.statusText);
-            console.log('Détails de l\'erreur:', errorData);
-            alert(`Erreur ${response.status}: ${errorData.message || 'Problème lors de la suppression de la photo'}`);
-        }
-    } catch (error) {
-        console.error('Erreur réseau:', error);
-        alert('Erreur de connexion au serveur.');
-    }
-}
-
-// Affichage des données dans la modal avec bouton en haut à droite
 function displayDataInModal() {
     fetchData().then(data => {
         galleryModal.innerHTML = ""; 
@@ -116,21 +76,18 @@ function displayDataInModal() {
             
             const imageWork = document.createElement("img");
             imageWork.src = work.imageUrl;
-            imageWork.alt = "";  
+            imageWork.alt = work.title;
 
-            // Création du bouton "cacher" mais qui supprime en réalité
             const hideButton = document.createElement("button");
             hideButton.innerHTML ='<span class="material-symbols-outlined">delete</span>';
             hideButton.classList.add("hide-button");
 
-            // Ajout d'un gestionnaire d'événements pour supprimer l'image au lieu de la masquer
             hideButton.addEventListener("click", () => {
                 if (confirm('Êtes-vous sûr de vouloir supprimer cette photo ?')) {
-                    deletePhoto(work.id);  // Appel de la fonction deletePhoto avec l'ID de la photo
+                    deletePhoto(work.id);
                 }
             });
 
-            // Ajout des éléments dans la figure
             figure.appendChild(imageWork);
             figure.appendChild(hideButton);
             galleryModal.appendChild(figure);
@@ -140,10 +97,9 @@ function displayDataInModal() {
     });
 }
 
-displayDataInModal(); 
+displayDataInModal();
 
-//* ajout photo avec fetch et gestion des erreurs détaillée *//
-
+// Ajout de logs lors de l'ajout de photo
 document.getElementById('validate-photo').addEventListener('click', async function () {
     const photoFile = document.getElementById('photo-upload').files[0]; // Le fichier image
     const title = document.getElementById('photo-title').value; // Titre de la photo
@@ -163,20 +119,17 @@ document.getElementById('validate-photo').addEventListener('click', async functi
         return;
     }
 
-    // Vérification des types de fichier autorisés
-    const allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!allowedFileTypes.includes(photoFile.type)) {
-        alert('Veuillez sélectionner un fichier image valide (JPEG, PNG ou GIF).');
-        return;
-    }
-
     // Création de l'objet FormData pour envoyer les données
     const formData = new FormData();
-    formData.append('image', photoFile); // 'image' doit correspondre au nom du champ attendu par Multer
+    formData.append('image', photoFile); // Image envoyée sous forme binaire
     formData.append('title', title); // Titre de la photo
-    formData.append('categoryId', categoryId); // Catégorie de la photo
+    formData.append('categoryId', categoryId); // ID de la catégorie sous forme d'entier
 
-    // Récupération du token d'authentification
+    // Log des données envoyées pour déboguer
+    for (let pair of formData.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+    }
+
     const token = window.localStorage.getItem('token'); 
     if (!token) {
         alert('Vous devez être connecté pour ajouter une photo.');
@@ -193,18 +146,14 @@ document.getElementById('validate-photo').addEventListener('click', async functi
             body: formData // Envoi du FormData avec l'image et les autres champs
         });
 
-        // Gestion de la réponse
         if (!response.ok) {
             const errorData = await response.json();
             console.error('Erreur HTTP:', response.status, response.statusText);
-            console.log('Détails de l\'erreur:', errorData); // Affichage des détails d'erreur pour l'analyse
+            console.log('Détails de l\'erreur:', errorData);
             alert(`Erreur ${response.status}: ${errorData.message || 'Problème lors de l\'ajout de la photo'}`);
         } else {
             alert('Photo ajoutée avec succès !');
-            // Réinitialisation du formulaire après succès
-            document.getElementById('photo-title').value = '';
-            document.getElementById('photo-category').value = '';
-            document.getElementById('photo-upload').value = null;
+            displayDataInModal(); // Actualisation de la galerie après l'ajout
         }
     } catch (error) {
         console.error('Erreur réseau:', error);
@@ -212,8 +161,7 @@ document.getElementById('validate-photo').addEventListener('click', async functi
     }
 });
 
-// récupération des catégories pour modal 2
-
+// Fonction pour récupérer et afficher les catégories dans le formulaire d'ajout de photo
 async function fetchCategories() {
     const response = await fetch('http://localhost:5678/api/categories');
     if (!response.ok) {
@@ -227,8 +175,7 @@ async function populateCategorySelect() {
     categorySelect.innerHTML = '<option value="">Sélectionner une catégorie</option>';
 
     try {
-        const categories = await fetchCategories(); 
-
+        const categories = await fetchCategories();
         categories.forEach(category => {
             const option = document.createElement('option');
             option.value = category.id;
@@ -236,16 +183,11 @@ async function populateCategorySelect() {
             categorySelect.appendChild(option);
         });
     } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error('Erreur lors de la récupération des catégories:', error);
     }
 }
 
-document.getElementById('open-modal2').addEventListener('click', function () {
-    populateCategorySelect(); 
-});
-
 // ajout de la prévisualisation de l'image avant upload
-
 function previewImage() {
     const file = document.getElementById('photo-upload').files[0];
     const preview = document.getElementById('image-preview');
@@ -271,28 +213,3 @@ function previewImage() {
         text.style.display = "block"; 
     }
 }
-
-// Fonction de validation du formulaire
-function validateForm() {
-    const photoFile = document.getElementById('photo-upload').files[0];
-    const title = document.getElementById('photo-title').value.trim();
-    const category = document.getElementById('photo-category').value;
-    const submitButton = document.getElementById('validate-photo');
-
-    // Conditions de validation : photo, titre et catégorie doivent être présents
-    if (photoFile && title && category) {
-        submitButton.disabled = false;  // Activer le bouton si toutes les conditions sont remplies
-    } else {
-        submitButton.disabled = true;   // Désactiver le bouton si une des conditions n'est pas remplie
-    }
-}
-
-// Écouter les événements de changement sur les champs du formulaire
-document.getElementById('photo-upload').addEventListener('change', validateForm);
-document.getElementById('photo-title').addEventListener('input', validateForm);
-document.getElementById('photo-category').addEventListener('change', validateForm);
-
-// Désactiver le bouton "Valider" au chargement de la page
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('validate-photo').disabled = true;
-});
