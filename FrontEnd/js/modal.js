@@ -149,7 +149,7 @@ document.getElementById('validate-photo').addEventListener('click', async functi
     const title = document.getElementById('photo-title').value; // Titre de la photo
     const categoryId = document.getElementById('photo-category').value; // Catégorie sélectionnée
 
-    // Vérification du fichier et des champs
+    // Vérification des champs avant l'envoi
     if (!photoFile) {
         alert('Veuillez ajouter une photo.');
         return;
@@ -172,9 +172,9 @@ document.getElementById('validate-photo').addEventListener('click', async functi
 
     // Création de l'objet FormData pour envoyer les données
     const formData = new FormData();
-    formData.append('photo', photoFile); 
-    formData.append('title', title); 
-    formData.append('categoryId', categoryId); 
+    formData.append('image', photoFile); // 'image' doit correspondre au nom du champ attendu par Multer
+    formData.append('title', title); // Titre de la photo
+    formData.append('categoryId', categoryId); // Catégorie de la photo
 
     // Récupération du token d'authentification
     const token = window.localStorage.getItem('token'); 
@@ -190,13 +190,14 @@ document.getElementById('validate-photo').addEventListener('click', async functi
             headers: {
                 'Authorization': `Bearer ${token}` // En-tête avec le token
             },
-            body: formData 
+            body: formData // Envoi du FormData avec l'image et les autres champs
         });
 
         // Gestion de la réponse
         if (!response.ok) {
             const errorData = await response.json();
             console.error('Erreur HTTP:', response.status, response.statusText);
+            console.log('Détails de l\'erreur:', errorData); // Affichage des détails d'erreur pour l'analyse
             alert(`Erreur ${response.status}: ${errorData.message || 'Problème lors de l\'ajout de la photo'}`);
         } else {
             alert('Photo ajoutée avec succès !');
